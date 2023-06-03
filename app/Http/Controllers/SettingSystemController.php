@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\setting_system;
 use App\Http\Requests\Storesetting_systemRequest;
 use App\Http\Requests\Updatesetting_systemRequest;
+use App\Models\Bobot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class SettingSystemController extends Controller
 {
@@ -17,19 +19,14 @@ class SettingSystemController extends Controller
     public function index()
     {
 
-        // dd(setting_system::all()[0]);
-        $tmp=setting_system::all()[0];
-        if( sizeof(setting_system::all()))
-        {
-            return view('features.admin.setting_system',[
-                'title' => 'setting system',
-                'setting'=> $tmp,
-                'status'=>'1'
-            ]);
-        }
+      
+        $tmp=setting_system::all()[0] ?? '';
+     
+        $bobot=Bobot::all()->first();
         return view('features.admin.setting_system',[
             'title' => 'setting system',
-            'status'=>'0'
+            'setting'=>$tmp,
+            'bobot'=>$bobot
         ]);
 
         //
@@ -57,16 +54,63 @@ class SettingSystemController extends Controller
     }
     public function storeAndReplace(Request $request)
     {
+        // $tmp= new setting_system();
+        // // dd($request->all());
+        // $tmp_1=$tmp::all()[0];
+
+        // setting_system::truncate();
+        
+        // $tmp->pemilihan_topik_dosen=array_key_exists("pemberian_topik_dosen",$request->all()) ;
+        // $tmp->pemilihan_topik_mahasiswa=array_key_exists("pemilihan_topik_mahasiswa",$request->all()) ;
+        // $tmp->pemilihan_topik_dosen_tanggal=$tmp_1->pemilihan_topik_dosen_tanggal ;
+        // $tmp->pemilihan_topik_mahasiswa=$tmp_1->pemilihan_topik_mahasiswa ;
+        // $tmp->save();
+        // return view('features.admin.setting_system',[
+        //     'title' => 'setting system',
+        //     'setting'=> $tmp,
+            
+        // ]);
+    }
+    public function bobot (Request $request){
+        
+        Bobot::truncate();
+        $bobot = new Bobot();
+        $bobot->pembimbing=$request->pembimbing;
+        $bobot->penguji=$request->penguji;
+        $bobot->save();
+        return redirect('/setting_system');
+    }
+    public function storeAndReplace_tanggal(Request $request)
+    {
         // dd($request->all());
-        setting_system::truncate();
         $tmp= new setting_system();
-        $tmp->pemberian_topik_dosen=array_key_exists("pemberian_topik_dosen",$request->all()) ;
-        $tmp->pemilihan_topik_mahasiswa=array_key_exists("pemilihan_topik_mahasiswa",$request->all()) ;
+        setting_system::truncate();
+
+        
+        $tmp->pemilihan_topik_dosen_tanggal=$request->pemilihan_topik_dosen_tanggal ;
+        $tmp->pemilihan_topik_mahasiswa_tanggal=$request->pemilihan_topik_mahasiswa_tanggal ;
+       
+      
+        if($tmp->pemilihan_topik_dosen_tanggal <=date('Y-m-d')){
+            $tmp->pemilihan_topik_dosen= 0 ;
+        }
+        else{
+            $tmp->pemilihan_topik_dosen= 1 ;
+        }
+        if($tmp->pemilihan_topik_mahasiswa_tanggal <= date('Y-m-d')){
+            $tmp->pemilihan_topik_mahasiswa= 0 ;
+        }
+        else{
+            $tmp->pemilihan_topik_mahasiswa= 1; 
+
+        }
+        // dd($tmp);
         $tmp->save();
         return view('features.admin.setting_system',[
             'title' => 'setting system',
             'setting'=> $tmp,
-            'status'=>'1'
+
+            
         ]);
     }
 

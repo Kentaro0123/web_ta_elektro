@@ -22,9 +22,18 @@ class User extends Authenticatable
    public function topik(){
     return $this->hasMany(Topik::class,'user_nip','nip');
    }
+   
    public function riwayat_mahasiswa(){
     return $this->hasMany(RiwayatMahasiswa::class,'nip','nip');
    }
-
+ public function jadwal_sidang_berhalangan(){
+    return $this->hasMany(JadwalSidangBerhalangan::class,'user_nip','nip');
+ }
+ public function penilaian(){
+    return $this->hasMany(Penilaian::class,'user_id','nip');
+ }
+ public function penilaian_akhir(){
+    return $this->hasMany(PenilaianAkhir::class,'user_id','nip');
+ }
    
 }

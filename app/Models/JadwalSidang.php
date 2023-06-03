@@ -16,5 +16,8 @@ class JadwalSidang extends Model
     public function dosen_sidang(){
         return $this->hasMany(DosenSidang::class,'id_jadwal_sidang','id');
     }
+    public function dosen_sidang_akhir(){
+        return $this->hasMany(DosenSidangAkhir::class,'id_jadwal_sidang','id');
+    }
 
 }

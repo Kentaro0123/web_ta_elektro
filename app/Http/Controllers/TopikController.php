@@ -64,7 +64,16 @@ class TopikController extends Controller
 
 
         $arrayRiwayatTopik=RiwayatMahasiswa::all()->where('nip','=',Auth::user()->nip);
-               
+        
+        $jadwal_sidang='';
+        $jadwal_sidang_akhir='';
+        if($arrayRiwayatTopik->first()->skripsi->jadwal_sidang->jam_pelaksanaan?? 0  ){
+            $jadwal_sidang=$arrayRiwayatTopik->first()->skripsi->jadwal_sidang;
+            $jadwal_sidang_akhir=$arrayRiwayatTopik->first()->skripsi->jadwal_sidang_akhir;
+        }  
+        else{
+            $jadwal_sidang='Tunggu Jadwal Sidang';
+        }
 
         // dd($arrayRiwayatTopik->first()->acc_topik );
         if(sizeof($arrayRiwayatTopik) == 1 &&  $arrayRiwayatTopik->first()->acc_topik == 1 ){
@@ -72,7 +81,8 @@ class TopikController extends Controller
            return view('features.get_all_topik',[
                 'title' => 'ACC',
                 'acc'=>  $arrayRiwayatTopik->first(),
-                'jadwal_sidang' => ($arrayRiwayatTopik->first()->skripsi->jadwal_sidang->jam_pelaksanaan ?? 'Tunggu Jadwal Sidang' )
+                'jadwal_sidang' => $jadwal_sidang,
+                'jadwal_sidang_akhir' => $jadwal_sidang_akhir
             ]);
         }
         $user=User::with('topik')->get();

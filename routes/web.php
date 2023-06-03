@@ -13,9 +13,18 @@ use App\Http\Controllers\RiwayatMahasiswaController;
 use App\Http\Controllers\SettingSystemController;
 use App\Http\Controllers\SkripsiController;
 use App\Http\Controllers\TopikController;
+use App\Http\Controllers\DosenPembimbingTambahanController;
+use App\Http\Controllers\FormatPenilaianAkhirController;
+use App\Http\Controllers\FormatPenilaianController;
+use App\Http\Controllers\JadwalSidangAkhirController;
+use App\Http\Controllers\PenilaianAkhirController;
+use App\Http\Controllers\PenilaianController;
+use App\Models\FormatPenilaianAkhir;
 use App\Models\JadwalSidang;
 use App\Models\JadwalSidangBerhalangan;
 use App\Models\Mahasiswa;
+use App\Models\Penilaian;
+use App\Models\PenilaianAkhir;
 use App\Models\RiwayatMahasiswa;
 use App\Models\setting_system;
 use App\Models\Skripsi;
@@ -56,11 +65,32 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/register',[RegisterController::class,'index']);
             Route::post('/register',[RegisterController::class,'store']);
             Route::get('/list_mahasiswa',[MahasiswaController::class,'show']);
+            Route::get('/list_mahasiswa_akhir',[MahasiswaController::class,'show_akhir']);
             Route::get('/get_skripsi_mahasiswa',[SkripsiController::class,'show']);
+            Route::get('/get_skripsi_mahasiswa_lulus_proposal',[SkripsiController::class,'show_mahasiswa_lulus_proposal']);
+            Route::get('/get_skripsi_dosen_pembimbing_tambahan',[DosenPembimbingTambahanController::class,'index']);
+            Route::post('/post_skripsi_dosen_pembimbing_tambahan',[DosenPembimbingTambahanController::class,'store']);
+            Route::get('/destroy_skripsi_dosen_pembimbing_tambahan/{id}',[DosenPembimbingTambahanController::class,'destroy']);
             Route::get('/penjadwalan/{id}',[JadwalSidangController::class,'index']);
+            Route::get('/penjadwalan_sidang_akhir/{id}',[JadwalSidangAkhirController::class,'index']);
             Route::post('/post_penjadwalan_sidang',[JadwalSidangController::class,'store']);   
+            Route::post('/post_penjadwalan_sidang_akhir',[JadwalSidangAkhirController::class,'store']);   
             Route::get('/setting_system',[SettingSystemController::class,'index']);
             Route::post('/setting_system',[SettingSystemController::class,'storeAndReplace']);
+            Route::post('/setting_system_tanggal',[SettingSystemController::class,'storeAndReplace_tanggal']);
+            Route::post('/setting_bobot',[SettingSystemController::class,'bobot']);
+            Route::get('/format_penilaian',[FormatPenilaianController::class,'index']);
+            Route::post('/format_penilaian',[FormatPenilaianController::class,'store']);
+            Route::get('/format_penilaian_akhir',[FormatPenilaianAkhirController::class,'index']);
+            Route::post('/format_penilaian_akhir',[FormatPenilaianAkhirController::class,'store']);
+            Route::get('/get_penilaian_mahasiswa',[PenilaianController::class,'show']);
+            Route::get('/get_penilaian_mahasiswa_akhir',[PenilaianAkhirController::class,'show']);
+            Route::get('/lulus_proposal/{id}',[SkripsiController::class,'lulus_proposal']);
+            Route::get('/cancel_lulus_proposal/{id}',[SkripsiController::class,'cancel_lulus_proposal']);
+            Route::get('/lulus_skripsi/{id}',[SkripsiController::class,'lulus_skripsi']);
+            Route::get('/cancel_lulus_skripsi/{id}',[SkripsiController::class,'cancel_lulus_skripsi']);
+            Route::get('/get_list_mahasiswa_lulus',[SkripsiController::class,'get_list_mahasiswa_lulus']);
+            
 
         });   
 
@@ -80,11 +110,21 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/post_jadwal_sidang_berhalangan',[JadwalSidangBerhalanganController::class,'index']);
             Route::post('/post_jadwal_sidang_berhalangan',[JadwalSidangBerhalanganController::class,'store']); 
             Route::get('/get_jadwal_sidang_mahasiswa_dosen',[JadwalSidangController::class,'show_mahasiswa_dosen']);
+            Route::get('/get_jadwal_sidang_mahasiswa_dosen_akhir',[JadwalSidangAkhirController::class,'show_mahasiswa_dosen']);
+            Route::get('/destroy_jam_berhalangan/{id}',[JadwalSidangBerhalanganController::class,'destroy_unit']);
+            Route::get('/destroy_jam_berhalangan_multiple/{hari}',[JadwalSidangBerhalanganController::class,'destroy_multiple_units']);
+            Route::get('/nilai_proposal/{id}',[PenilaianController::class,'index']);
+            Route::get('/nilai_sidang_akhir/{id}',[PenilaianAkhirController::class,'index']);
+            Route::post('/post_nilai_proposal',[PenilaianController::class,'store_nilai_proposal']);
+            Route::post('/post_nilai_akhir',[PenilaianAkhirController::class,'store_nilai_akhir']);
+
+
               
         });
         //ajax
         Route::get('/jadwal_berhalangan_id/{id}',[JadwalSidangBerhalanganController::class,'show_user']);
         Route::get('/setting_system_navbar',[SettingSystemController::class,'update_navbar']);
+        Route::get('/jadwal_berhalangan_all/{jam_pelaksanaan}/{jam_selesai}/{hari_pelaksanaan}',[JadwalSidangBerhalanganController::class,'get_all']);
 
     
         
@@ -111,4 +151,4 @@ Route::post('/login',[LoginController::class,'authenticate']);
 Route::get('/auth/redirect',[LoginController::class,'redirect']);
 Route::get('/auth/callback', [LoginController::class,'callback']);
 
-Route::post('/register_mahasiswa',[RegisterController::class,'store']);
+Route::post('/register_mahasiswa_store',[RegisterController::class,'store_mahasiswa']);

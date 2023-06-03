@@ -2,7 +2,42 @@
 
 <?php 
 use App\Models\setting_system;
-$active= setting_system::all()[0];
+
+// $active =new setting_system()
+$active= setting_system::all()->first();
+// dd($active ) ;
+if (!$active ?? 0){
+// dd('masuk' ) ;
+
+    $active = new setting_system();
+    $active->pemilihan_topik_dosen = 0;
+    $active->pemilihan_topik_mahasiswa = 0;
+    $active->pemilihan_topik_dosen_tanggal=date('Y-m-d');
+    $active->pemilihan_topik_mahasiswa_tanggal=date('Y-m-d');
+    $active->save();
+}
+$active->pemilihan_topik_dosen = 1;
+$active->pemilihan_topik_mahasiswa = 1;
+if($active->pemilihan_topik_dosen_tanggal <= date('Y-m-d')){
+    $active->pemilihan_topik_dosen = 0;
+    // dd(date('Y-m-d'),$active->pemilihan_topik_dosen,$active);
+
+    $active->save();
+
+
+}
+else {
+    $active->save();
+}
+if($active->pemilihan_topik_mahasiswa_tanggal <= date('Y-m-d')){
+    $active->pemilihan_topik_mahasiswa=0;
+    $active->save();
+}
+else {
+    
+    $active->save();
+}
+
 ?>
 
 <?php
@@ -43,26 +78,86 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
                   </li>
                   <li class="nav-item">
                       <a href="/list_mahasiswa" class="nav-link align-middle px-0 text-white">
-                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Mahasiswa</span>
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Mahasiswa Skripsi Awal</span>
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="/get_skripsi_mahasiswa" class="nav-link align-middle px-0 text-white">
-                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Penjadwalan</span>
+                      <a href="/list_mahasiswa_akhir" class="nav-link align-middle px-0 text-white">
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Mahasiswa Skripsi Akhir</span>
                       </a>
                   </li>
+                  <li class="nav-item">
+                      <a href="/get_skripsi_dosen_pembimbing_tambahan" class="nav-link align-middle px-0 text-white">
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Tambah Dosen Pembimbing</span>
+                      </a>
+                  </li>
+                  {{-- untuk sidang proposal --}}
+                  <li>
+                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline"><b>List Sidang Proposal</b> </span> </a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="nav-item">
+                                <a href="/get_skripsi_mahasiswa" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Penjadwalan Sidang Proposal</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/format_penilaian" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Buat Format Penilian</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/get_penilaian_mahasiswa" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Penilaian Mahasiswa</span>
+                                </a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                  <li>
+                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline"><b>List Sidang Akhir</b> </span> </a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                            <li class="nav-item">
+                                <a href="/get_skripsi_mahasiswa_lulus_proposal" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Penjadwalan Sidang Akhir</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/format_penilaian_akhir" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Buat Format Penilian Akhir</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/get_penilaian_mahasiswa_akhir" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Penilaian Mahasiswa</span>
+                                </a>
+                            </li>
+                        
+                        
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/get_list_mahasiswa_lulus" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Mahasiswa Yang Lulus</span>
+                        </a>
+                    </li>
+                 
                   <li class="nav-item">
                       <a href="/setting_system" class="nav-link align-middle px-0 text-white">
                           <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Setting System</span>
                       </a>
                   </li>
+                 
+                  
+                 
                   
                   @endif
                   {{-- dosen --}}
                   @if (Auth::user()->role == 2)
                  
                   
-                  <li class="nav-item" id="mahasiswa_request" @if ($active->pemberian_topik_dosen==0) hidden
+                  <li class="nav-item" id="mahasiswa_request" @if ($active->pemilihan_topik_dosen==0) hidden
                       
                   @endif>
                       <a href="/request_topik_mahasiswa" class="nav-link align-middle px-0 text-white">
@@ -97,7 +192,12 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
                       <a href="/get_jadwal_sidang_mahasiswa_dosen" class="nav-link align-middle px-0 text-white">
                           <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Jadwal Sidang </span>
                       </a>
-                  </li>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/get_jadwal_sidang_mahasiswa_dosen_akhir" class="nav-link align-middle px-0 text-white">
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Jadwal Sidang Akhir </span>
+                      </a>
+                    </li>
                     
                     @endif
   
@@ -113,44 +213,6 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
                       </a>
                   </li>
                     @endif
-                    {{-- <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
-                    </li> --}}
                 </ul>
                 <hr>
                 <div class="btn-group dropup">

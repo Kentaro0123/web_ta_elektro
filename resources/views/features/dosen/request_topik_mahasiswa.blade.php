@@ -15,6 +15,7 @@
  foreach ($tp->riwayat_mahasiswa as $key => $value) {
     if ($value->acc_topik == 1 ) {
         $count++;
+        
     }
  }
 //  dd($count);

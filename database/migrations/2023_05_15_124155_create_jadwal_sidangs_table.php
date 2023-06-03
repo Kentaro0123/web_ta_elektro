@@ -19,6 +19,7 @@ class CreateJadwalSidangsTable extends Migration
             $table->date('hari_pelaksanaan');
             $table->time('jam_pelaksanaan');
             $table->time('jam_selesai');
+            $table->string('tempat_sidang')->nullable();
             $table->timestamps();
         });
     }

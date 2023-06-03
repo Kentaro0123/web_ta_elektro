@@ -41,7 +41,21 @@ class MahasiswaController extends Controller
         // ->get();
         // dd(User::with('riwayat_mahasiswa')->has('mahasiswa')->get());
         return view('features.admin.list_mahasiswa',[
-            "title" => 'mahasiswa',
+            "title" => 'mahasiswa proposal',
+            "users" =>User::with('riwayat_mahasiswa')->has('mahasiswa')->get()
+        ]);
+    }
+    public function show_akhir()
+    {
+  
+       
+        // $mahasiswa= DB::table('mahasiswa')
+        // ->join('users', 'mahasiswa.user_nip', '=', 'users.nip')
+        // ->select('users.*', 'mahasiswa.*')
+        // ->get();
+        // dd(User::with('riwayat_mahasiswa')->has('mahasiswa')->get());
+        return view('features.admin.list_mahasiswa_akhir',[
+            "title" => 'mahasiswa akhir',
             "users" =>User::with('riwayat_mahasiswa')->has('mahasiswa')->get()
         ]);
     }

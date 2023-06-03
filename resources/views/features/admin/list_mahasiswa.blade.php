@@ -32,9 +32,32 @@
 }
 
 </style>
- 
+{{-- <link href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css" rel="stylesheet">
 
-    <div class="row">
+<script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.21.4/dist/extensions/print/bootstrap-table-print.min.js"></script> --}}
+
+<style>
+    @media print{
+        /* hide every other element */
+        body * {
+            visibility: hidden;
+        }
+        .print-container, .print-container * {
+            visibility: visible;
+        }
+        .print-container{
+            position: absolute;
+            left: 0;
+            top:0; 
+        }
+    }
+    ::placeholder{
+        font-weight: 700;
+    }
+</style>
+<button onclick="window.print()">Print</button>
+    <div class="row " >
         <div class="panel panel-primary filterable">
             <div class="panel-heading">
                 <h3 class="panel-title">Users</h3>
@@ -42,24 +65,26 @@
                     <button class="btn btn-default btn-xs btn-filter btn-info"><span class="glyphicon glyphicon-filter"></span> Filter</button>
                 </div>
             </div>
-            <table class="table">
+            {{-- <button onclick="printData()">print</button> --}}
+            <table class="table print-container"   >
                 <thead>
                     <tr class="filters ">
                         {{-- <th><input type="text" class="form-control" placeholder="#" disabled></th> --}}
-                        <th><input type="text" class="form-control" placeholder="NRP" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Nama" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Topik" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Skripsi" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Dosen Pembimbing" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Tanggal Sidang" disabled></th>
+                        {{-- <th><input type="text" class="form-control" placeholder="NRP" disabled></th> --}}
+                        <th><input type="text" class="form-control" placeholder="NRP-Nama" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Topik - SubTopik" disabled></th>
+                        {{-- <th><input type="text" class="form-control" placeholder="Skripsi" disabled></th> --}}
+                        <th><input type="text" class="form-control" placeholder="Dosen Pembimbing 1" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Dosen Pembimbing Tambahan" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Dosen Penguji" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="tgl sidang Proposal" disabled></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
 
                     <tr>
-                        <td>{{ $user->nip }}</td>
-                        <td>{{ $user->nama }}</td>
+                        <td>{{ $user->nip }}-{{ $user->nama }}</td>
                         <td>
                             @if ( !isset($user->riwayat_mahasiswa->first()->acc_topik) )
                             X
@@ -67,19 +92,27 @@
                                 @if ($user->riwayat_mahasiswa->first()->acc_topik == 0)
                                 X 
                                 @else
-                                {{  $user->riwayat_mahasiswa->first()->judul_topik}}
+                               
+                                {{  $user->riwayat_mahasiswa->first()->judul_topik }} - 
+
+                                            @if (!isset($user->riwayat_mahasiswa->first()->skripsi) || !isset($user->riwayat_mahasiswa->first()->acc_judul) )
+                                            X
+                                            @else
+                                            {{ $user->riwayat_mahasiswa->first()->skripsi->judul}}
+                                            @endif 
+
 
                                 @endif
                             @endif 
                         
                         </td>
-                        <td>
+                        {{-- <td>
                             @if (!isset($user->riwayat_mahasiswa->first()->skripsi) || !isset($user->riwayat_mahasiswa->first()->acc_judul) )
                             X
                             @else
                             {{ $user->riwayat_mahasiswa->first()->skripsi->judul}}
                             @endif 
-                        </td>
+                        </td> --}}
                         <td>
                             @if ( !isset($user->riwayat_mahasiswa->first()->acc_topik) )
                             X
@@ -95,21 +128,48 @@
                             @endif
                         </td> 
                         <td>
+                          @if ( ($user->riwayat_mahasiswa->first()->skripsi ?? 0))
+                                @if ($user->riwayat_mahasiswa->first()->skripsi->dosen_pembimbing_tambahan->first()->user->nama ?? 0)
+                                    @foreach ($user->riwayat_mahasiswa->first()->skripsi->dosen_pembimbing_tambahan as $item)
+                                        {{ $item->user->nama }} <hr>
+                                    @endforeach
+                                @else
+                                X
+                                @endif
+                                
+                              @else
+                              X
+                          @endif  
+                        </td>
+                        <td>
+                            @if ($user->riwayat_mahasiswa->first()->skripsi ?? 0)
+                                @if ($user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->dosen_sidang ?? 0)
+
+                                    @foreach ($user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->dosen_sidang as $item)
+                                        {{ $item->user->nama }} <hr>
+                                    @endforeach
+                                    
+                                @else
+                                    X
+                                @endif
+                             @else
+                             X   
+                            @endif
+
+                        </td>
+                        <td>
                             @if ( !isset($user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->jam_pelaksanaan) )
                             X
                             @else
-                                    {{-- @if ($user->riwayat_mahasiswa->first()->acc_topik == 0)
-                                    X 
-                                    
-                                    @else
-                                    {{  $user->riwayat_mahasiswa->first()->topik->user->nama}}
-
-                                    @endif --}}
-                                    {{ $user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->jam_pelaksanaan }}
-                            {{-- @endif --}}
+                                    {{ $user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->hari_pelaksanaan }}
+                                    <br>
+                                    {{ $user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->jam_pelaksanaan }}-
+                                    {{ $user->riwayat_mahasiswa->first()->skripsi->jadwal_sidang->jam_selesai}}
+                        
                                 
                             @endif
                         </td>
+
                     </tr>
                         
                     @endforeach
@@ -140,6 +200,15 @@
     /*
 Please consider that the JS part isn't production ready at all, I just code it to show the concept of merging filters and titles together !
 */
+
+function printData()
+{
+   var divToPrint=document.getElementById("printTable");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
 $(document).ready(function(){
     $('.filterable .btn-filter').click(function(){
         var $panel = $(this).parents('.filterable'),

@@ -19,9 +19,15 @@
         </div>
     </div>
     <div class="form-group row mt-2">
-        <label for="jam_berhalangan" class="col-sm-2 col-form-label">jam berhalangan</label>
+        <label for="jam_berhalangan_mulai" class="col-sm-2 col-form-label">jam berhalangan mulai</label>
         <div class="col-sm-10">
-          <input id="jam_berhalangan" list="times" type="time" name="jam_berhalangan"  step="1800" onkeydown="return false">
+          <input id="jam_berhalangan_mulai" list="times" type="time" name="jam_berhalangan_mulai"  step="1800" onkeydown="return false">
+        </div>
+    </div>
+    <div class="form-group row mt-2">
+        <label for="jam_berhalangan_selesai" class="col-sm-2 col-form-label">jam berhalangan selesai</label>
+        <div class="col-sm-10">
+          <input id="jam_berhalangan_selesai" list="times" type="time" name="jam_berhalangan_selesai"  step="1800" onkeydown="return false">
         </div>
     </div>
     
@@ -31,10 +37,66 @@
 
 <div>
     <h5>Hapus Jadwal dengan Menekan Jam di Bawah</h5>
-    @foreach ($jadwal_sidang_berhalangan as $jsb)
-        <a type="button" class="btn btn-danger m-3" href="destroy_jam_berhalangan/{{ $jsb->id }}" >{{ $jsb->hari }} <br>
-            {{ $jsb->jam }}</a>
+
+
+    <?php
+    $sorted= $jadwal_sidang_berhalangan->sortBy(['hari','jam'])->all();
+    // dd($sorted);
+    $key=array_key_first($sorted) ?? '';
+    $hari_tmp=$sorted[$key]->hari ?? '';
+
+    // dd($hari_tmp);
+
+    ?>
+{{-- startofCard --}}
+   @if ($hari_tmp != '')
+    <div class="card-deck">
+
+    <div class="row">
+        <div class="col-sm-3 mb-3"   >
+            <div class="card" >
+                <div class="card-header">
+                    <b>{{ $hari_tmp }}</b> <a type="button" class="btn btn-danger  rounded-circle" href="destroy_jam_berhalangan_multiple/{{ $hari_tmp }}">x</a>
+                </div>
+                {{-- <div class="overflow-auto" > --}}
+                    <ul class="list-group list-group-flush" >
+   @endif
+   
+    @foreach ($sorted as $jsb)
+    
+     @if ($jsb->hari == $hari_tmp)
+                        <a type="button" class="btn btn-danger m-3" href="destroy_jam_berhalangan/{{ $jsb->id }}" >
+                            {{ $jsb->jam }}</a>
+                        {{-- <a type="button" class="btn btn-danger m-3" href="destroy_jam_berhalangan/{{ $jsb->id }}" >{{ $jsb->hari }} <br>
+                            {{ $jsb->jam }}</a> --}}
+     @else              
+                        
+                    </ul>
+                {{-- </div> --}}
+            </div>
+        </div>
+      <?php $hari_tmp = $jsb->hari ?>
+        <div class="col-sm-3 mb-3" >
+            <div class="card" >
+                <div class="card-header">
+                   <b>{{ $jsb->hari }}</b>   <a type="button" class="btn btn-danger rounded-circle" href="destroy_jam_berhalangan_multiple/{{ $jsb->hari }}">x</a>
+                       
+                </div>
+                {{-- <div class="overflow-auto"> --}}
+                    <ul class="list-group list-group-flush">
+                        
+                        <a type="button" class="btn btn-danger m-3" href="destroy_jam_berhalangan/{{ $jsb->id }}" >
+                            {{ $jsb->jam }}</a>
+                        {{-- <a type="button" class="btn btn-danger m-3" href="destroy_jam_berhalangan/{{ $jsb->id }}" >{{ $jsb->hari }} <br>
+                            {{ $jsb->jam }}</a> --}}
+     @endif
     @endforeach
+                {{-- </div> --}}
+            </div>
+        </div>
+    </div>
+
+    {{-- endofCard --}}
 </div>
 
 

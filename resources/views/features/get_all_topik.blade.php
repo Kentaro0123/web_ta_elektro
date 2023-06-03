@@ -3,11 +3,34 @@
 
 
 @if ($title == 'ACC')
+<style>
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+</style>
 
-<h2>!! Selamat !! Topik Anda terkait:</h2> 
-<h3> {{ $acc->topik->judul }}</h3> 
-<h2>Telah di ACC, Silahkan Hubungi Bpk/Ibu: {{ $acc->topik->user->nama }}</h2>       
-<h3> {{ $jadwal_sidang }}</h3>
+<div class="card  d-flex justify-content-center" style="top:50% ;width:27rem  ;-ms-transform: translateY(-50%);
+transform: translateY(-50%);">
+    <div class="card-body">
+      <h3 class="card-title">!! Selamat !!</h3>
+      <h6 class="card-subtitle mb-2 text-muted">Topik Anda terkait: <h5>{{ $acc->topik->judul }}</h5></h6>
+      <p class="card-text">Telah di ACC, Silahkan Hubungi Bpk/Ibu: {{ $acc->topik->user->nama }}</p>
+      <a href="#" class="card-link btn btn-success">jadwal sidang =>{{ $jadwal_sidang->hari_pelaksanaan ?? 'tunggu jadwal' }} = {{ $jadwal_sidang->jam_pelaksanaan  ?? ''}} <br>=> Tempat Sidang= {{ $jadwal_sidang->tempat_sidang }}</a>
+      <p>Tempat Sidang= {{ $jadwal_sidang->tempat_sidang }}</p>
+      <p></p>
+      <hr>
+      <a href="#" class="card-link btn btn-success">jadwal sidang Akhir =>{{ $jadwal_sidang_akhir->hari_pelaksanaan ?? 'tunggu jadwal' }} = {{ $jadwal_sidang_akhir->jam_pelaksanaan  ?? ''}} <br>=> Tempat Sidang Akhir= {{ $jadwal_sidang_akhir->tempat_sidang }}</a>
+      <p>Tempat Sidang Akhir= {{ $jadwal_sidang_akhir->tempat_sidang }}</p>
+      {{-- <a href="#" class="card-link">Another link</a> --}}
+    </div>
+  </div>
+{{-- <div class="d-flex justify-content-center">
+
+</div>  --}}
+
+
 @else
 
 
@@ -48,7 +71,21 @@
             <h5>{{ $us->nama }}</h5>
            
             @foreach ($us->topik as $tp )
-            <a type="button" class="btn btn-outline-success m-1" href="/get_topik_detail/{{ $tp->id }}">Topik:{{ $tp->judul }},Kuota:{{ $tp->kuota}}</a>  
+              <?php $count=0 ?>
+               @foreach ($tp->riwayat_mahasiswa as $rm )
+              <?php $count++ ?>
+                   
+               @endforeach
+              <?php $kuota=$tp->kuota - $count?>
+              @if ($kuota <= 0)
+                    <a type="button" class="btn btn-outline-success m-1" href="" disabled>Topik:{{ $tp->judul }},Kuota:Habis</a>  
+
+              @else
+                    <a type="button" class="btn btn-outline-success m-1" href="/get_topik_detail/{{ $tp->id }}">Topik:{{ $tp->judul }},Kuota:{{ $kuota}}</a>
+                      
+                  
+              @endif
+
             @endforeach
             
             <br> <br>

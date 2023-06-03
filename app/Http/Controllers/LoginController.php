@@ -21,21 +21,16 @@ class LoginController extends Controller
 
     public function callback()
     {
-    //    dd();
-      
+        
+       
+
         // Google user object dari google
         $userFromGoogle = Socialite::driver('google')->user();
         
         $userFromGoogle->getAvatar();
 
-        // view()->composer('*',function($view) {
-        //         $view->with('image', $GLOBALS['image']);
-               
-        //     });
-            // View::share('image',  $userFromGoogle->getAvatar());
-            // $userFromGoogle->getEmail(),
-           $email= strtok($userFromGoogle->getEmail(),'@');
-           $domain= strtok('');
+            $email= strtok($userFromGoogle->getEmail(),'@');
+            $domain= strtok('');
             $nama=$userFromGoogle->getName();
             
         
@@ -54,6 +49,7 @@ class LoginController extends Controller
 
             if($domain == 'john.petra.ac.id')
             {
+                // dd('hello');
 
                 return view('features.register_mahasiswa',[
                     'nip'=>$email,

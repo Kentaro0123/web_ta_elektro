@@ -1,6 +1,9 @@
 @servers(['web' => 'iot.petra.ac.id'])
 
 @task('deploy')
-    cd /path/to/site
-    git pull origin master
+    ls -a 
+@endtask
+
+@task('clone_code')
+    git clone 
 @endtask

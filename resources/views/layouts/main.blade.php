@@ -17,7 +17,7 @@
   <body>
 
   <div class="row">
-    <div class="col col-md-auto ">
+    <div class="col col-md-2">
         @include('partials.navbar')
     </div>     
     <div class="col col-md-9">

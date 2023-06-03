@@ -15,9 +15,10 @@ class CreateSettingSystemsTable extends Migration
     {
         Schema::create('setting_system', function (Blueprint $table) {
             $table->id();
-            $table->boolean('pemberian_topik_dosen')->nullable();
+            $table->boolean('pemilihan_topik_dosen')->nullable();
             $table->boolean('pemilihan_topik_mahasiswa')->nullable();
-            $table->timestamps();
+            $table->date('pemilihan_topik_dosen_tanggal')->nullable();
+            $table->date('pemilihan_topik_mahasiswa_tanggal')->nullable();
         });
     }
 
