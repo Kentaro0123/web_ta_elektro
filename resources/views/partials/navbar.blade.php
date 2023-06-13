@@ -12,13 +12,15 @@ if (!$active ?? 0){
     $active = new setting_system();
     $active->pemilihan_topik_dosen = 0;
     $active->pemilihan_topik_mahasiswa = 0;
-    $active->pemilihan_topik_dosen_tanggal=date('Y-m-d');
-    $active->pemilihan_topik_mahasiswa_tanggal=date('Y-m-d');
+    $active->pemilihan_topik_dosen_tanggal_mulai=date('Y-m-d');
+    $active->pemilihan_topik_mahasiswa_tanggal_mulai=date('Y-m-d');
+    $active->pemilihan_topik_dosen_tanggal_selesai=date('Y-m-d');
+    $active->pemilihan_topik_mahasiswa_tanggal_selesai=date('Y-m-d');
     $active->save();
 }
 $active->pemilihan_topik_dosen = 1;
 $active->pemilihan_topik_mahasiswa = 1;
-if($active->pemilihan_topik_dosen_tanggal <= date('Y-m-d')){
+if($active->pemilihan_topik_dosen_tanggal_mulai > date('Y-m-d') || $active->pemilihan_topik_dosen_tanggal_selesai < date('Y-m-d')){
     $active->pemilihan_topik_dosen = 0;
     // dd(date('Y-m-d'),$active->pemilihan_topik_dosen,$active);
 
@@ -29,7 +31,7 @@ if($active->pemilihan_topik_dosen_tanggal <= date('Y-m-d')){
 else {
     $active->save();
 }
-if($active->pemilihan_topik_mahasiswa_tanggal <= date('Y-m-d')){
+if($active->pemilihan_topik_mahasiswa_tanggal_mulai > date('Y-m-d') || $active->pemilihan_topik_mahasiswa_tanggal_selesai < date('Y-m-d')){
     $active->pemilihan_topik_mahasiswa=0;
     $active->save();
 }
@@ -71,14 +73,10 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
                           <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Tambah Pengumuman</span>
                       </a>
                   </li>
-                  <li class="nav-item">
-                      <a href="/register" class="nav-link align-middle px-0 text-white">
-                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Register Mahasiswa</span>
-                      </a>
-                  </li>
+                
                   <li class="nav-item">
                       <a href="/list_mahasiswa" class="nav-link align-middle px-0 text-white">
-                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Mahasiswa Skripsi Awal</span>
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">List Mahasiswa Proposal</span>
                       </a>
                   </li>
                   <li class="nav-item">
@@ -148,7 +146,11 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
                           <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Setting System</span>
                       </a>
                   </li>
-                 
+                  <li class="nav-item">
+                    <a href="/register" class="nav-link align-middle px-0 text-white">
+                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Register Mahasiswa</span>
+                    </a>
+                </li>
                   
                  
                   
@@ -190,7 +192,7 @@ $acc=$mahasiswa->where('nip','=',Auth::user()->nip)->first();
   
                     <li class="nav-item">
                       <a href="/get_jadwal_sidang_mahasiswa_dosen" class="nav-link align-middle px-0 text-white">
-                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Jadwal Sidang </span>
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Jadwal Sidang Proposal </span>
                       </a>
                     </li>
                     <li class="nav-item">

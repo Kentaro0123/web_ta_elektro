@@ -24,7 +24,7 @@ class TopikController extends Controller
         
         $request->validate([
 
-            'inputJudulTopik' => 'required',
+            'inputJudulTopik' => 'required|unique:topik,judul',
             'inputDeskripsiTopik'=>'required',
             'inputKuota' => 'required',
             'inputPersyaratanMahasiswa' =>'required',

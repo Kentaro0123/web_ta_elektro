@@ -17,8 +17,9 @@ class CreateSettingSystemsTable extends Migration
             $table->id();
             $table->boolean('pemilihan_topik_dosen')->nullable();
             $table->boolean('pemilihan_topik_mahasiswa')->nullable();
-            $table->date('pemilihan_topik_dosen_tanggal')->nullable();
-            $table->date('pemilihan_topik_mahasiswa_tanggal')->nullable();
+            $table->date('pemilihan_topik_dosen_tanggal_mulai')->nullable();
+            $table->date('pemilihan_topik_mahasiswa_tanggal_mulai')->nullable();
+            $table->date('pemilihan_topik_mahasiswa_tanggal_selesai')->nullable();
         });
     }
 

@@ -145,9 +145,9 @@ Route::middleware(['auth'])->group(function(){
 //LOGIN 
 Route::get('/login',[LoginController::class,'index'])->name('login')->middleware('guest');
 Route::get('/',[LoginController::class,'index'])->name('login')->middleware('guest');
-
+//LOGIN GOOGLE AUTH
 Route::post('/login',[LoginController::class,'authenticate']);
-
+//HANDLE REDIRECT AND CALL BACK GOOGLE
 Route::get('/auth/redirect',[LoginController::class,'redirect']);
 Route::get('/auth/callback', [LoginController::class,'callback']);
 

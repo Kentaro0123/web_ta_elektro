@@ -30,7 +30,7 @@
                                     @endif
                                 @endforeach
                               @if($yes)
-                                <a href="" class="btn btn-warning">Edit</a>
+                                <a href="" class="btn btn-warning">Ok</a>
                                 
                                         
                                 @else

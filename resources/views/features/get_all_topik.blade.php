@@ -16,13 +16,24 @@ transform: translateY(-50%);">
     <div class="card-body">
       <h3 class="card-title">!! Selamat !!</h3>
       <h6 class="card-subtitle mb-2 text-muted">Topik Anda terkait: <h5>{{ $acc->topik->judul }}</h5></h6>
+      <h6 class="card-subtitle mb-2 text-muted">Judul Anda terkait: 
+         {{-- @if ( $acc->skripsi->judul ?? null) --}}
+      <h6>{{ $acc->skripsi->judul ?? 'Belum ada judul'  }}</h6>  
+        {{-- @else
+        Belum Diberikan
+      @endif --}}</h6>
       <p class="card-text">Telah di ACC, Silahkan Hubungi Bpk/Ibu: {{ $acc->topik->user->nama }}</p>
-      <a href="#" class="card-link btn btn-success">jadwal sidang =>{{ $jadwal_sidang->hari_pelaksanaan ?? 'tunggu jadwal' }} = {{ $jadwal_sidang->jam_pelaksanaan  ?? ''}} <br>=> Tempat Sidang= {{ $jadwal_sidang->tempat_sidang }}</a>
-      <p>Tempat Sidang= {{ $jadwal_sidang->tempat_sidang }}</p>
+      <a href="#" class="card-link btn btn-success">jadwal sidang Proposal =>{{ $jadwal_sidang->hari_pelaksanaan ?? 'tunggu jadwal' }} -> {{ $jadwal_sidang->jam_pelaksanaan  ?? ''}} </a>
+      <br><p>Tempat Sidang -> {{ $jadwal_sidang->tempat_sidang  ?? ''}}</p>
+      
+      {{-- @if ($acc->skripsi->lulus_proposal ?? null)
+      <p>Lulus  </p>
+          
+      @endif --}}
       <p></p>
       <hr>
-      <a href="#" class="card-link btn btn-success">jadwal sidang Akhir =>{{ $jadwal_sidang_akhir->hari_pelaksanaan ?? 'tunggu jadwal' }} = {{ $jadwal_sidang_akhir->jam_pelaksanaan  ?? ''}} <br>=> Tempat Sidang Akhir= {{ $jadwal_sidang_akhir->tempat_sidang }}</a>
-      <p>Tempat Sidang Akhir= {{ $jadwal_sidang_akhir->tempat_sidang }}</p>
+      <a href="#" class="card-link btn btn-success">jadwal sidang Akhir =>{{ $jadwal_sidang_akhir->hari_pelaksanaan ?? 'tunggu jadwal' }} -> {{ $jadwal_sidang_akhir->jam_pelaksanaan  ?? ''}} </a>
+      <p>Tempat Sidang Akhir -> {{ $jadwal_sidang_akhir->tempat_sidang ?? '' }}</p>
       {{-- <a href="#" class="card-link">Another link</a> --}}
     </div>
   </div>

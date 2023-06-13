@@ -87,18 +87,21 @@ class SettingSystemController extends Controller
         setting_system::truncate();
 
         
-        $tmp->pemilihan_topik_dosen_tanggal=$request->pemilihan_topik_dosen_tanggal ;
-        $tmp->pemilihan_topik_mahasiswa_tanggal=$request->pemilihan_topik_mahasiswa_tanggal ;
+        $tmp->pemilihan_topik_dosen_tanggal_mulai=$request->pemilihan_topik_dosen_tanggal_mulai ;
+        $tmp->pemilihan_topik_mahasiswa_tanggal_mulai=$request->pemilihan_topik_mahasiswa_tanggal_mulai ;
+        $tmp->pemilihan_topik_dosen_tanggal_selesai=$request->pemilihan_topik_dosen_tanggal_selesai ;
+        $tmp->pemilihan_topik_mahasiswa_tanggal_selesai=$request->pemilihan_topik_mahasiswa_tanggal_selesai ;
        
       
-        if($tmp->pemilihan_topik_dosen_tanggal <=date('Y-m-d')){
+        if($tmp->pemilihan_topik_dosen_tanggal_mulai > date('Y-m-d') || $tmp->pemilihan_topik_dosen_tanggal_selesai < date('Y-m-d')){
             $tmp->pemilihan_topik_dosen= 0 ;
         }
         else{
             $tmp->pemilihan_topik_dosen= 1 ;
         }
-        if($tmp->pemilihan_topik_mahasiswa_tanggal <= date('Y-m-d')){
+        if($tmp->pemilihan_topik_mahasiswa_tanggal_mulai > date('Y-m-d') || $tmp->pemilihan_topik_mahasiswa_tanggal_selesai < date('Y-m-d')){
             $tmp->pemilihan_topik_mahasiswa= 0 ;
+            
         }
         else{
             $tmp->pemilihan_topik_mahasiswa= 1; 

@@ -132,6 +132,7 @@ class LoginController extends Controller
     //     return redirect('/');
     // }
     public function index(){
+
         return view('features.login.index',[
             'title'=>"Login"
         ]);

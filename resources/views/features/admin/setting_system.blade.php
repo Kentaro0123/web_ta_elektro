@@ -11,10 +11,18 @@
 
 
 
-
+<h5>Sesi Rentang Waktu</h5>
 <form action="/setting_system" method="POST" data-toggle="validator" >
   @csrf
-
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="pemilihan_topik_mahasiswa" @if ($setting->pemilihan_topik_mahasiswa ?? 0)
+    checked 
+    @endif disabled>
+    <label class="form-check-label" for="flexCheckDefault">
+      Sesi Mahasiswa Melakukan Pemilihan Topik yang di ajukan dosen 
+    </label>
+</div>
+<hr>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" name="pemilihan_topik_dosen" @if ($setting->pemilihan_topik_dosen ?? 0) checked  
     @endif disabled>
@@ -23,14 +31,7 @@
     </label>
 </div>
 <hr>
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="pemilihan_topik_mahasiswa" @if ($setting->pemilihan_topik_mahasiswa ?? 0)
-    checked 
-    @endif disabled>
-    <label class="form-check-label" for="flexCheckDefault">
-      Sesi Mahasiswa Melakukan Pemilihan Topik yang di ajukan dosen 
-    </label>
-</div>
+
 {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
 
 </form>
@@ -38,24 +39,43 @@
 <br><br>
 <form action="/setting_system_tanggal" method="POST" data-toggle="validator">
   @csrf
-  <div class="form-group">
-    <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_dosen_tanggal ?? '' }}" id="check1" name="pemilihan_topik_dosen_tanggal">
-    <label class="form-check-label" for="check1">
-      Sesi Dosen untuk memilih Mahasiswa terkait Topik yang diajukan
-    </label>
-</div>
-<hr>
+
 <div class="form-group">
-    <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_mahasiswa_tanggal ?? ''  }}" id="check2" name="pemilihan_topik_mahasiswa_tanggal">
+    <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_mahasiswa_tanggal_mulai ?? ''  }}" id="check2" name="pemilihan_topik_mahasiswa_tanggal_mulai">
     <label class="form-check-label" for="check2">
-      Sesi Mahasiswa Melakukan Pemilihan Topik yang di ajukan dosen 
+      Sesi Mahasiswa Melakukan Pemilihan Topik yang di ajukan dosen -> Mulai
     </label>
 </div>
+<div class="form-group">
+    <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_mahasiswa_tanggal_selesai ?? ''  }}" id="check2" name="pemilihan_topik_mahasiswa_tanggal_selesai">
+    <label class="form-check-label" for="check2">
+      Sesi Mahasiswa Melakukan Pemilihan Topik yang di ajukan dosen -> Selesai
+    </label>
+</div>
+
+<hr>
+
+<div class="form-group">
+  <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_dosen_tanggal_mulai ?? '' }}" id="check1" name="pemilihan_topik_dosen_tanggal_mulai">
+  <label class="form-check-label" for="check1">
+    Sesi Dosen untuk memilih Mahasiswa terkait Topik yang diajukan -> Mulai
+  </label>
+</div>
+<div class="form-group">
+  <input class="form-control" type="date" value="{{ $setting->pemilihan_topik_dosen_tanggal_selesai ?? '' }}" id="check1" name="pemilihan_topik_dosen_tanggal_selesai">
+  <label class="form-check-label" for="check1">
+    Sesi Dosen untuk memilih Mahasiswa terkait Topik yang diajukan -> Selesai
+  </label>
+</div>
+
 <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
 
-
+<hr>
+<hr>
+<br>
+<h5>Bobot Penilaian </h5>
 <form action="/setting_bobot" method="POST">
 @csrf
   <div>

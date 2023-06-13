@@ -77,7 +77,7 @@
                         <th><input type="text" class="form-control" placeholder="Dosen Pembimbing 1" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Dosen Pembimbing Tambahan" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Dosen Penguji" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="tgl sidang Proposal" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Tgl sidang Proposal" disabled></th>
                     </tr>
                 </thead>
                 <tbody>

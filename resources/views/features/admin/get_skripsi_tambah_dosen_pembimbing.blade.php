@@ -33,7 +33,7 @@
                     <option id="{{ $item->nip }}" ><p id="{{ $item->nip }}">{{ $item->nip }}-{{ $item->nama }}</p></option>
                     @endforeach
                     <input name="id_skripsi" style="display: none" value="{{ $sk->id }}">
-                  </select><button type="submit" class="btn btn-primary" href="#" role="button"> Tambah Penguji</button></li>
+                  </select><button type="submit" class="btn btn-primary" href="#" role="button"> Tambah Pembimbing</button></li>
                   
             </form>
               

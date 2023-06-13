@@ -256,10 +256,7 @@ hr {
 
               @endif
           <p></p>
-            {{-- <p> Jumlah Total Nilai Pembimbing ={{ $total_nilai_per_mahasiswa_pembimbing }}</p>
-            <p> Total Pembimbing ={{ $count_pembimbing }}</p>
-            <p> Jumlah Total Nilai Penguji ={{ $total_nilai_per_mahasiswa_penguji }}</p>
-            <p> Total Penguji ={{ $count_penguji }}</p> --}}
+         
             <?php 
           
             $Total= ((division($total_nilai_per_mahasiswa_pembimbing,$count_pembimbing))*($bobot->pembimbing/100)) + 
